@@ -38,15 +38,17 @@ RUN set -eux ; \
         gpg \
         dirmngr \
         locales \
+        fontconfig \
         git-core \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libicu-dev \
+        libgmp-dev \
+        libmagickwand-dev \
+        libpng-dev \
         librabbitmq-dev \
         libsodium-dev \
         libssl-dev \
-        libicu-dev \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libmagickwand-dev \
         zlib1g-dev \
         python \
         unzip \
