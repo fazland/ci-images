@@ -43,6 +43,10 @@ RUN set -eux ; \
         libsodium-dev \
         libssl-dev \
         libicu-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libmagickwand-dev \
         zlib1g-dev \
         python \
         unzip \
