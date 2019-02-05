@@ -44,6 +44,7 @@ RUN set -eux ; \
         libjpeg62-turbo-dev \
         libicu-dev \
         libgmp-dev \
+        libpq-dev \
         libmagickwand-dev \
         libpng-dev \
         librabbitmq-dev \
@@ -63,5 +64,5 @@ RUN echo "memory_limit=512M" >> /usr/local/etc/php/php.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ADD .build /.build
-RUN YARN_VERSION=1.12.3 /.build/install-node
+RUN /.build/install-node
 
