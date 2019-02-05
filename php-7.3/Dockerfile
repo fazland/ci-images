@@ -54,7 +54,7 @@ RUN set -eux ; \
         unzip \
         libzip-dev \
     --no-install-recommends && rm -r /var/lib/apt/lists/* ; \
-    docker-php-ext-install -j$(nproc) amqp iconv gd gmp intl imagick exif bcmath sockets mbstring mongodb pdo pdo_mysql redis opcache zip ; \
+    docker-php-ext-install -j$(nproc) amqp iconv gd gmp intl imagick exif bcmath sockets mbstring mongodb pdo pdo_mysql pdo_pgsql redis opcache zip ; \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen ; \
     sed -i -e 's/# it_IT.UTF-8 UTF-8/it_IT.UTF-8 UTF-8/' /etc/locale.gen ; \
     locale-gen
