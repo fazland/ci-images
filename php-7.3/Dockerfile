@@ -3,6 +3,7 @@ FROM php:7.3-fpm
 ARG PHP_REDIS_VERSION=4.2.0
 ARG PHP_MONGODB_VERSION=1.5.3
 ARG PHP_AMQP_VERSION=master
+ARG PHP_PCOV_VERSION=1.0.6
 
 RUN set -eux ; \
     docker-php-source extract ; \
@@ -27,6 +28,11 @@ RUN set -eux ; \
     mkdir -p amqp ; \
     tar -xf amqp.tar.gz -C amqp --strip-components=1 ; \
     rm amqp.tar.gz ; \
+    \
+    curl -fsSL https://github.com/krakjoe/pcov/archive/v$PHP_PCOV_VERSION.tar.gz -o pcov.tar.gz ; \
+    mkdir -p pcov ; \
+    tar -xf pcov.tar.gz -C pcov --strip-components=1 ; \
+    rm pcov.tar.gz ; \
     \
     curl -fsSL https://pecl.php.net/get/imagick -o imagick.tgz ; \
     mkdir -p imagick ; \
@@ -55,7 +61,7 @@ RUN set -eux ; \
         unzip \
         libzip-dev \
     --no-install-recommends && rm -r /var/lib/apt/lists/* ; \
-    docker-php-ext-install -j$(nproc) amqp iconv gd gmp intl imagick exif bcmath sockets mbstring mongodb pdo pdo_mysql pdo_pgsql redis opcache zip ; \
+    docker-php-ext-install -j$(nproc) amqp iconv gd gmp intl imagick exif bcmath sockets mbstring mongodb pcov pdo pdo_mysql pdo_pgsql redis opcache zip ; \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen ; \
     sed -i -e 's/# it_IT.UTF-8 UTF-8/it_IT.UTF-8 UTF-8/' /etc/locale.gen ; \
     locale-gen
