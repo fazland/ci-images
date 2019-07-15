@@ -117,6 +117,7 @@ RUN set -eux ; \
     apt-get install -y \
         libpq5 \
         libzip4 \
+        librabbitmq4 \
         --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 RUN echo "memory_limit=512M" >> /usr/local/etc/php/php.ini
