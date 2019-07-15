@@ -39,32 +39,83 @@ RUN set -eux ; \
     tar -xf imagick.tgz -C imagick --strip-components=1 ; \
     rm imagick.tgz ; \
     \
+    echo "deb-src http://deb.debian.org/debian stretch main" >> /etc/apt/sources.list ; \
     apt-get update && apt-get install -y \
         ssh \
         gpg \
         dirmngr \
-        locales \
-        fontconfig \
-        git-core \
+        libssl-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
-        libicu-dev \
-        libgmp-dev \
-        libpq-dev \
-        libmagickwand-dev \
+        libmcrypt-dev \
         libpng-dev \
-        librabbitmq-dev \
         libsodium-dev \
-        libssl-dev \
-        zlib1g-dev \
-        python \
+        awscli \
+        libicu-dev \
+        git-core \
         unzip \
+        locales \
+        python \
+        fontconfig \
+        libgmp-dev \
+        autotools-dev \
+        automake \
+        libtool \
+        gpg \
+        libpq-dev \
+        librabbitmq-dev \
+        libwebp-dev \
+        devscripts \
+        libgraphviz-dev \
         libzip-dev \
-    --no-install-recommends && rm -r /var/lib/apt/lists/* ; \
+    --no-install-recommends ; \
+    apt-get build-dep -y imagemagick ; \
+    apt-get source imagemagick ; \
+    cd imagemagick-* ; \
+    debuild --rootcmd= -uc -us ; \
+    cd .. ; \
+    rm ./*magick*dbgsym*.deb ; \
+    dpkg -i ./*magick*.deb ; \
+    rm -rf ./*magick*.deb imagemagick-* ; \
+    docker-php-ext-install igbinary ; \
+    docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ ; \
+    docker-php-ext-configure redis --enable-redis-igbinary ; \
     docker-php-ext-install -j$(nproc) amqp iconv gd gmp intl imagick exif bcmath sockets mbstring mongodb pcov pdo pdo_mysql pdo_pgsql redis opcache zip ; \
+    docker-php-source delete ; \
+    \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen ; \
     sed -i -e 's/# it_IT.UTF-8 UTF-8/it_IT.UTF-8 UTF-8/' /etc/locale.gen ; \
-    locale-gen
+    locale-gen ; \
+    apt-mark auto \
+        libssl-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        libsodium-dev \
+        awscli \
+        libicu-dev \
+        git-core \
+        unzip \
+        python \
+        fontconfig \
+        libgmp-dev \
+        autotools-dev \
+        automake \
+        libtool \
+        gpg \
+        libpq-dev \
+        librabbitmq-dev \
+        libwebp-dev \
+        devscripts \
+        libgraphviz-dev \
+        libzip-dev \
+        $(apt-cache showsrc imagemagick | sed -e '/Build-Depends/!d;s/Build-Depends: \|,\|([^)]*),*\|\[[^]]*\]//g' | sed -e 's/Build-Depends-Indep://g') ; \
+    apt-get autoremove -y ; \
+    apt-get install -y \
+        libpq5 \
+        libzip4 \
+        --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 RUN echo "memory_limit=512M" >> /usr/local/etc/php/php.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
