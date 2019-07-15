@@ -68,6 +68,7 @@ RUN set -eux ; \
         devscripts \
         libgraphviz-dev \
         libzip-dev \
+        libjs-jquery \
     --no-install-recommends ; \
     apt-get build-dep -y imagemagick ; \
     apt-get source imagemagick ; \
@@ -110,6 +111,7 @@ RUN set -eux ; \
         devscripts \
         libgraphviz-dev \
         libzip-dev \
+        libjs-jquery \
         $(apt-cache showsrc imagemagick | sed -e '/Build-Depends/!d;s/Build-Depends: \|,\|([^)]*),*\|\[[^]]*\]//g' | sed -e 's/Build-Depends-Indep://g') ; \
     apt-get autoremove -y ; \
     apt-get install -y \
