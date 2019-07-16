@@ -21,7 +21,7 @@ set -ex \
   done
 
 if [[ -z "${NODE_VERSION}" ]]; then
-    NODE_VERSION=8.15.0
+    NODE_VERSION=8.16.0
 fi
 
 ARCH= && dpkgArch="$(dpkg --print-architecture)" \
@@ -43,7 +43,7 @@ ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
 if [[ -z "${YARN_VERSION}" ]]; then
-    YARN_VERSION=1.12.3
+    YARN_VERSION=1.15.2
 fi
 
 set -ex \

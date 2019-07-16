@@ -1,6 +1,6 @@
-FROM php:7.3-fpm
+FROM php:7.3-fpm-buster
 
-ARG PHP_REDIS_VERSION=4.2.0
+ARG PHP_REDIS_VERSION=5.0.1
 ARG PHP_MONGODB_VERSION=1.5.3
 ARG PHP_AMQP_VERSION=master
 ARG PHP_PCOV_VERSION=1.0.6
@@ -67,17 +67,9 @@ RUN set -eux ; \
         libwebp-dev \
         devscripts \
         libgraphviz-dev \
+        libmagickwand-6.q16-dev \
         libzip-dev \
-        libjs-jquery \
     --no-install-recommends ; \
-    apt-get build-dep -y imagemagick ; \
-    apt-get source imagemagick ; \
-    cd imagemagick-* ; \
-    debuild --rootcmd= -uc -us ; \
-    cd .. ; \
-    rm ./*magick*dbgsym*.deb ; \
-    dpkg -i ./*magick*.deb ; \
-    rm -rf ./*magick*.deb imagemagick-* ; \
     docker-php-ext-install igbinary ; \
     docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ ; \
     docker-php-ext-configure redis --enable-redis-igbinary ; \
@@ -111,13 +103,14 @@ RUN set -eux ; \
         devscripts \
         libgraphviz-dev \
         libzip-dev \
-        libjs-jquery \
-        $(apt-cache showsrc imagemagick | sed -e '/Build-Depends/!d;s/Build-Depends: \|,\|([^)]*),*\|\[[^]]*\]//g' | sed -e 's/Build-Depends-Indep://g') ; \
+        libmagickwand-6.q16-dev \
     apt-get autoremove -y ; \
     apt-get install -y \
         libpq5 \
         libzip4 \
         librabbitmq4 \
+        libmagickwand-6.q16-6 \
+        libpng16-16 \
         unzip \
         --no-install-recommends && rm -r /var/lib/apt/lists/*
 
