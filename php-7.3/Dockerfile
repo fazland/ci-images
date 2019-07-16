@@ -104,6 +104,7 @@ RUN set -eux ; \
         libgraphviz-dev \
         libzip-dev \
         libmagickwand-6.q16-dev \
+    ; \
     apt-get autoremove -y ; \
     apt-get install -y \
         libpq5 \
