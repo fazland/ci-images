@@ -51,6 +51,7 @@ RUN set -eux ; \
         libpng-dev \
         libsodium-dev \
         awscli \
+        mysql-client \
         libicu-dev \
         git-core \
         unzip \
