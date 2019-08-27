@@ -51,7 +51,7 @@ RUN set -eux ; \
         libpng-dev \
         libsodium-dev \
         awscli \
-        mysql-client \
+        mariadb-client \
         libicu-dev \
         git-core \
         unzip \
