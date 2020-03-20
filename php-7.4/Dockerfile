@@ -73,7 +73,7 @@ RUN set -eux ; \
         libonig-dev \
     --no-install-recommends ; \
     docker-php-ext-install igbinary ; \
-    docker-php-ext-configure gd --with-jpeg-dir=/usr/include/ ; \
+    docker-php-ext-configure gd --with-jpeg=/usr/include/ ; \
     docker-php-ext-configure redis --enable-redis-igbinary ; \
     docker-php-ext-install -j$(nproc) amqp iconv gd gmp intl imagick exif bcmath sockets mbstring mongodb pcov pdo pdo_mysql pdo_pgsql redis opcache zip ; \
     docker-php-source delete ; \
